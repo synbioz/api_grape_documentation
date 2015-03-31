@@ -2,8 +2,6 @@ module CarWorldTrader
   module V2
     class Cars < Grape::API
       version 'v2', using: :path
-      format :json
-      prefix :api
 
       resource :cars do
         desc "Create a car"

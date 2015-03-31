@@ -1,14 +1,21 @@
 module CarWorldTrader
   module V1
+    module Entities
+      class Car < Grape::Entity
+        expose :id, documentation: { type: 'integer', desc: 'Car ID' }
+        expose :manufacturer, documentation: { type: 'string', desc: 'Car manufacturer' }
+        expose :style, documentation: { type: 'string', desc: 'Car style' }
+        expose :doors, documentation: { type: 'integer', desc: 'Car number of doors' }
+      end
+    end
+
     class Cars < Grape::API
-      version 'v1', using: :path
-      format :json
-      prefix :api
+      # version 'v1', using: :path
 
       resource :cars do
-        http_basic do |username, password|
-          { 'synbioz' => '4p1' }[username] == password
-        end
+        # http_basic do |username, password|
+        #   { 'synbioz' => '4p1' }[username] == password
+        # end
 
         desc "Return list of cars"
         get do
@@ -25,7 +32,7 @@ module CarWorldTrader
           end
         end
 
-        desc "Create a car"
+        desc "Create a car", entity: CarWorldTrader::V1::Entities::Car
         params do
           requires :car, type: Hash do
             requires :manufacturer, type: String, regexp: /^[A-Z][a-z]+$/
@@ -35,7 +42,7 @@ module CarWorldTrader
           end
         end
         post do
-          Car.create!(params[:car])
+          present Car.create!(params[:car]), with: CarWorldTrader::V1::Entities::Car
         end
 
         desc "Update a car"

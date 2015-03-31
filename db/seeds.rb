@@ -5,3 +5,17 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+cars = [{
+  manufacturer: "Audi",
+  design: "Cool",
+  style: "racing",
+  doors: "5"
+},{
+  manufacturer: "Renaud",
+  design: "Bof",
+  style: "tourer",
+  doors: "5"
+}]
+cars.each do |c|
+  Car.create(manufacturer: c[:manufacturer], design: c[:design], style: c[:style], doors: c[:doors])
+end
